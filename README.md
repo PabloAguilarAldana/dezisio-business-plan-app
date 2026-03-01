@@ -7,8 +7,12 @@ This application generates a production-ready Excel business plan based on a pre
 ```text
 /business-plan-app
   /app
-    main.py          # FastAPI initialization & Global Startup Validation
+    main.py          # FastAPI initialization & Static File Hosting
     config.py        # Settings and Env vars
+  /static            # MODERN WEB FRONTEND (HTML/CSS/JS)
+    index.html
+    style.css
+    script.js
   /api
     routes.py        # POST /generate endpoint
   /core

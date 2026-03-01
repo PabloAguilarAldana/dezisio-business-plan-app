@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Plan Generator | Modern Investment Analysis</title>
+    <meta name="description" content="Generate high-end real estate and business project spreadsheets instantly.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="background-glow"></div>
+
+    <main class="container">
+        <header class="header">
+            <div class="logo">Dezisio</div>
+            <h1>Dezisio Business Plan</h1>
+            <p class="subtitle">Premium Real Estate Investment Analysis Generator</p>
+        </header>
+
+        <form id="generatorForm" class="glass-form">
+            <div class="form-grid">
+                <!-- Building Info -->
+                <section class="form-section">
+                    <h3><span class="icon">🏢</span> Building Data</h3>
+                    <div class="input-group">
+                        <label for="buildingType">Building Type</label>
+                        <select id="buildingType" name="buildingType" required>
+                            <option value="TA">TA</option>
+                            <option value="Hostel">Hostel</option>
+                            <option value="3 star Hotel">3 star Hotel</option>
+                            <option value="4 star Hotel">4 star Hotel</option>
+                            <option value="Luxury Hotel">Luxury Hotel</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="buildableM2">Buildable m²</label>
+                        <input type="number" id="buildableM2" name="buildableM2" step="0.01" min="0.01"
+                            placeholder="e.g. 2500" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="buildingStatus">Building Status</label>
+                        <select id="buildingStatus" name="buildingStatus" required>
+                            <option value="Partially renovated">Partially renovated</option>
+                            <option value="Renovated">Renovated</option>
+                            <option value="Pending to be renovated">Pending to be renovated</option>
+                            <option value="Not built">Not built</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- Financial & Operation -->
+                <section class="form-section">
+                    <h3><span class="icon">💰</span> Investment & Finance</h3>
+                    <div class="input-group">
+                        <label for="purchasePrice">Purchase Price (€)</label>
+                        <input type="number" id="purchasePrice" name="purchasePrice" step="0.01" min="0"
+                            placeholder="0.00" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="bankLoanNeeded">Bank Loan Needed</label>
+                        <select id="bankLoanNeeded" name="bankLoanNeeded" required>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="expectedLoanStartDate">Loan Start Date</label>
+                        <input type="date" id="expectedLoanStartDate" name="expectedLoanStartDate" required>
+                    </div>
+                </section>
+
+                <!-- Project Details -->
+                <section class="form-section">
+                    <h3><span class="icon">📍</span> Project Details</h3>
+                    <div class="input-group">
+                        <label for="exactLocation">Exact Location</label>
+                        <input type="text" id="exactLocation" name="exactLocation" value="Based on client"
+                            placeholder="City, Area">
+                    </div>
+                    <div class="input-group">
+                        <label for="constructionProject">Construction Project</label>
+                        <select id="constructionProject" name="constructionProject" required>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="operationMode">Management / Lease</label>
+                        <select id="operationMode" name="operationMode" required>
+                            <option value="Management">Management</option>
+                            <option value="Lease">Lease</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- Exit Strategy -->
+                <section class="form-section">
+                    <h3><span class="icon">📊</span> Exit Strategy</h3>
+                    <div class="input-group full-width">
+                        <label for="exitYear">Exit Year</label>
+                        <input type="number" id="exitYear" name="exitYear" min="2024" max="2100" value="2030" required>
+                    </div>
+                </section>
+            </div>
+
+            <div class="form-footer">
+                <button type="submit" id="submitBtn" class="primary-button">
+                    <span class="btn-text">Generate Business Plan</span>
+                    <span class="btn-loader" hidden></span>
+                </button>
+                <div id="statusMessage" class="status-message"></div>
+            </div>
+        </form>
+
+        <footer class="footer-note">
+            <p>&copy; 2026 Dezisio. All rights reserved.</p>
+        </footer>
+    </main>
+
+    <script src="/static/script.js"></script>
+</body>
+
+</html>
