@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+.env
+
+# Excel Output
+output/
+BusinessPlan_*.xlsx
+
+# Local Templates (optional, but good practice if sensitive)
+# templates/*.xlsx
+
+# IDEs
+.vscode/
+.idea/
