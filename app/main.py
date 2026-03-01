@@ -32,8 +32,15 @@ app.include_router(router)
 
 # Serve Static Files
 static_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
+output_dir = os.path.abspath(settings.OUTPUT_DIR)
+
 if os.path.exists(static_dir):
     app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+# Mount output directory so generated files are downloadable via URL
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir, exist_ok=True)
+app.mount("/download", StaticFiles(directory=output_dir), name="download")
 
 @app.get("/")
 async def read_index():

@@ -5,30 +5,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnLoader = submitBtn.querySelector('.btn-loader');
     const statusMessage = document.getElementById('statusMessage');
 
+    // Preview Elements
+    const previewSection = document.getElementById('previewSection');
+    const previewContent = document.getElementById('previewContent');
+    const tabBtns = document.querySelectorAll('.tab-btn');
+
+    let activePreviews = {};
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         // Reset state
         setLoading(true);
-        statusMessage.textContent = 'Generating your business plan...';
+        statusMessage.textContent = 'Analyzing and generating your plan...';
         statusMessage.className = 'status-message success';
+        previewSection.hidden = true;
 
         const formData = new FormData(form);
         const data = {};
 
-        // Convert FormData to JSON following BusinessPlanInputs schema (camelCase for Pydantic aliases)
         formData.forEach((value, key) => {
-            // Handle number conversions
             if (key === 'buildableM2' || key === 'purchasePrice') {
                 data[key] = parseFloat(value);
             } else if (key === 'exitYear') {
                 data[key] = parseInt(value);
-            } 
-            // Handle boolean conversions
-            else if (key === 'bankLoanNeeded' || key === 'constructionProject') {
+            } else if (key === 'bankLoanNeeded' || key === 'constructionProject') {
                 data[key] = value === 'true';
-            }
-            else {
+            } else {
                 data[key] = value;
             }
         });
@@ -36,9 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('/generate', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
 
@@ -47,33 +48,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(errorData.detail || 'Failed to generate plan');
             }
 
-            // Get the blob and trigger download
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
+            const result = await response.json();
+
+            // 1. Store previews
+            activePreviews = result.previews;
+
+            // 2. Trigger Download
+            const downloadUrl = result.downloadUrl;
             const a = document.createElement('a');
-            a.href = url;
-            
-            // Try to extract filename from header
-            const disposition = response.headers.get('content-disposition');
-            let filename = 'BusinessPlan.xlsx';
-            if (disposition && disposition.indexOf('filename=') !== -1) {
-                filename = disposition.split('filename=')[1].trim().replace(/"/g, '');
-            }
-            
-            a.download = filename;
+            a.href = downloadUrl;
+            a.download = result.filename;
             document.body.appendChild(a);
             a.click();
-            window.URL.revokeObjectURL(url);
             document.body.removeChild(a);
 
-            statusMessage.textContent = 'Success! Your file is descending.';
-            statusMessage.className = 'status-message success';
-            
-            // Reset button after 2s
+            // 3. Show Preview
+            showPreview('Projections');
+            previewSection.hidden = false;
+
+            // Smooth scroll to preview
             setTimeout(() => {
-                statusMessage.textContent = '';
-                setLoading(false);
-            }, 3000);
+                previewSection.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+
+            statusMessage.textContent = 'Success! File downloaded and preview ready below.';
+            statusMessage.className = 'status-message success';
+            setLoading(false);
 
         } catch (error) {
             console.error('Error:', error);
@@ -83,17 +83,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Tab Logic
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const sheet = btn.getAttribute('data-sheet');
+
+            // Update UI
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            showPreview(sheet);
+        });
+    });
+
+    function showPreview(sheetName) {
+        if (activePreviews[sheetName]) {
+            previewContent.innerHTML = activePreviews[sheetName];
+        } else {
+            previewContent.innerHTML = '<div class="preview-placeholder">No data available for this sheet.</div>';
+        }
+    }
+
     function setLoading(isLoading) {
         submitBtn.disabled = isLoading;
         btnLoader.hidden = !isLoading;
         if (isLoading) {
-            btnText.textContent = 'Preparing Excel...';
+            btnText.textContent = 'Processing Data...';
             submitBtn.style.opacity = '0.7';
-            submitBtn.style.cursor = 'not-allowed';
         } else {
             btnText.textContent = 'Generate Business Plan';
             submitBtn.style.opacity = '1';
-            submitBtn.style.cursor = 'pointer';
         }
     }
 });

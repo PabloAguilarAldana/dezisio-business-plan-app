@@ -117,6 +117,26 @@
             </div>
         </form>
 
+        <!-- Preview Section -->
+        <section id="previewSection" class="preview-container glass-card" hidden>
+            <div class="preview-header">
+                <h2><span class="icon">🔍</span> Project Preview</h2>
+                <p class="subtitle">Interactive view of your generated spreadsheet</p>
+            </div>
+
+            <div class="tabs-control">
+                <button class="tab-btn active" data-sheet="Projections">Projections</button>
+                <button class="tab-btn" data-sheet="PEM">PEM</button>
+                <button class="tab-btn" data-sheet="Sizes">Sizes</button>
+                <button class="tab-btn" data-sheet="Listings">Listings</button>
+            </div>
+
+            <div id="previewContent" class="preview-content">
+                <!-- HTML Tables will be injected here -->
+                <div class="preview-placeholder">Generating preview...</div>
+            </div>
+        </section>
+
         <footer class="footer-note">
             <p>&copy; 2026 Dezisio. All rights reserved.</p>
         </footer>
