@@ -33,19 +33,31 @@ This application generates a production-ready Excel business plan based on a pre
 ## Setup & Execution
 
 ### 1. Install Dependencies
+Ensure you have Python 3.11+ installed. Install the required libraries:
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Prepare the Template
-Place your Excel file in `templates/business_plan_template.xlsx`.
-**MANDATORY**: Ensure the followings sheets exist: `FORM`, `Projections`, `PEM`, `Sizes`, `Listings`.
+### 2. Prepare the Excel Template
+Place your professional Excel file in `templates/business_plan_template.xlsx`.
+> [!IMPORTANT]
+> The application validates the template on startup. It must contain these sheets: `FORM`, `Projections`, `PEM`, `Sizes`, `Listings`.
 
-### 3. Run the App
+### 3. Run the Application
+Navigate to the root directory `business-plan-app` and start the server using Uvicorn:
+
 ```bash
-cd business-plan-app
 uvicorn app.main:app --reload
 ```
+
+**Why the `--reload` flag?**
+- The `--reload` option is essential during development. It tells Uvicorn to watch for any changes in your Python files and automatically restart the server. 
+- If you modify `excel/mapping.py` or `core/models.py`, the app will refresh instantly without manual intervention.
+
+### 4. Access the Interface
+Once the server is running (usually at `http://localhost:8000`):
+- **Web UI**: Open [http://localhost:8000](http://localhost:8000) in your browser for the premium dashboard.
+- **API Docs**: Access [http://localhost:8000/docs](http://localhost:8000/docs) for the interactive Swagger UI.
 
 ## API Usage Example
 
